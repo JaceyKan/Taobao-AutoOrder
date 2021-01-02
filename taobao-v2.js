@@ -1,4 +1,4 @@
-const { Builder, By, Key, until } = require('selenium-webdriver');
+const { Builder, By, until } = require('selenium-webdriver');
 
 // 淘宝登录用户名和密码
 const userName = '淘宝登录用户名';
@@ -30,7 +30,7 @@ const waitTargetTime = 10 * 60 * 1000; // 等待目标时间不少于10min
 async function firstAction() {
   console.log(`---这是第${qiangDanTimes}次抢单---firstAction`);
   // 进入购物车页面
-  await driver.get('https://cart.taobao.com/');
+  await driver.navigate().to('https://cart.taobao.com/');
   // 查找全选按钮
   await driver.wait(until.elementLocated(By.id('J_SelectAll1')), waitTime).click();
 
@@ -92,7 +92,7 @@ async function firstAction() {
 async function action() {
   console.log(`---这是第${qiangDanTimes}次抢单---`);
   // 进入淘宝购物车页面
-  await driver.get('https://cart.taobao.com/');
+  await driver.navigate().to('https://cart.taobao.com/');
   // 查找全选按钮
   await driver.wait(until.elementLocated(By.id('J_SelectAll1')), waitTime).click();
 
@@ -144,14 +144,15 @@ async function action() {
 // 登录程序
 async function login(userName, pwd) {
   // 打开淘宝购物车页面，登录
-  await driver.get('https://cart.taobao.com/');
+  await driver.get('https://login.taobao.com/');
   try {
     // 输入用户名和密码
     await driver.findElement(By.id('fm-login-id')).sendKeys(userName);
     await driver.findElement(By.id('fm-login-password')).sendKeys(pwd);
     await driver.findElement(By.css('.password-login')).click();
 
-    await driver.wait(until.urlContains('cart.taobao.com'), waitTime);
+    await driver.wait(until.urlContains('https://www.taobao.com/'), waitTime);
+
     console.log('---登录成功---');
   } catch (err) {
     console.log('---登录失败---');
